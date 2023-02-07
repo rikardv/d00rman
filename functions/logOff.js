@@ -1,4 +1,7 @@
-export default async function logOff(session, cookie_token) {
+import store from '../store';
+
+export default async function logOff() {
+  const state = store.getState();
   var myHeaders = new Headers();
   myHeaders.append(
     'sec-ch-ua',
@@ -17,7 +20,7 @@ export default async function logOff(session, cookie_token) {
   );
   myHeaders.append(
     'Cookie',
-    `ASP.NET_SessionId=${session}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${cookie_token}`,
+    `ASP.NET_SessionId=${state.sessionId}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${state.cookieToken}`,
   );
 
   var requestOptions = {
@@ -31,6 +34,6 @@ export default async function logOff(session, cookie_token) {
     requestOptions,
   )
     .then(response => response.text())
-    .then(result => console.log(result))
+    .then(result => console.log('Logged out'))
     .catch(error => console.log('error', error));
 }

@@ -42,7 +42,10 @@ export default async function redirectHome(fgt, session, cookie_token, auth) {
     mode: 'cors',
   };
 
-  fetch('https://aptus.hyresbostader.se/AptusPortalStyra/', requestOptions)
+  await fetch(
+    'https://aptus.hyresbostader.se/AptusPortalStyra/',
+    requestOptions,
+  )
     .then(response => response.text())
     .then(result => console.log(''))
     .catch(error => console.log('error', error));

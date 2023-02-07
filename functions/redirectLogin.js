@@ -1,7 +1,6 @@
 import CookieManager from '@react-native-cookies/cookies';
 
 export default async function redirectLogin(fgt, session, cookie_token, auth) {
-  console.log('Redirecting the user to lock page.....');
   await CookieManager.clearAll();
   var myHeaders = new Headers();
   myHeaders.append('Host', 'aptus.hyresbostader.se');

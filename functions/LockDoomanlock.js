@@ -1,5 +1,10 @@
-export default async function LockDoomanlock(fgt, session, cookie_token, auth) {
+import {synced, syncing} from '../actions';
+import store from '../store';
+
+export default async function LockDoomanlock() {
   var myHeaders = new Headers();
+  const state = store.getState();
+  store.dispatch(syncing());
   myHeaders.append('Host', 'aptus.hyresbostader.se');
   myHeaders.append('Accept', '*/*');
   myHeaders.append(
@@ -14,7 +19,7 @@ export default async function LockDoomanlock(fgt, session, cookie_token, auth) {
   myHeaders.append('X-Requested-With', 'XMLHttpRequest');
   myHeaders.append(
     'Cookie',
-    `FGTServer=${fgt}; FGTServer=${fgt}; ASP.NET_SessionId=${session}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${cookie_token}; .ASPXAUTH=${auth}`,
+    `FGTServer=${state.fgtServer}; FGTServer=${state.fgtServer}; ASP.NET_SessionId=${state.sessionId}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${state.cookieToken}; .ASPXAUTH=${state.authX}`,
   );
 
   var requestOptions = {
@@ -25,10 +30,15 @@ export default async function LockDoomanlock(fgt, session, cookie_token, auth) {
     mode: 'cors',
   };
 
-  const res = await fetch(
+  await fetch(
     'https://aptus.hyresbostader.se/AptusPortalStyra/Lock/LockDoormanLock',
     requestOptions,
-  );
-
-  return res;
+  )
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      store.dispatch(synced());
+      console.log('Lock response....', data);
+    });
 }

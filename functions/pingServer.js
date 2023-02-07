@@ -1,5 +1,8 @@
-export default async function pingServer(fgt, session, cookie_token, auth) {
+import store from '../store';
+
+export default async function pingServer() {
   console.log('Pinging server......');
+  const state = store.getState();
   var myHeaders = new Headers();
   myHeaders.append('Host', 'aptus.hyresbostader.se');
   myHeaders.append(
@@ -24,7 +27,7 @@ export default async function pingServer(fgt, session, cookie_token, auth) {
   myHeaders.append('Accept-Language', 'sv-SE,sv;q=0.9,en-US;q=0.8,en;q=0.7');
   myHeaders.append(
     'Cookie',
-    `FGTServer=${fgt}; FGTServer=${fgt}; ASP.NET_SessionId=${session}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${cookie_token}; .ASPXAUTH=${auth}`,
+    `FGTServer=${state.fgtServer}; FGTServer=${state.fgtServer}; ASP.NET_SessionId=${state.sessionId}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${state.cookieToken}; .ASPXAUTH=${state.authX}`,
   );
   var requestOptions = {
     method: 'GET',

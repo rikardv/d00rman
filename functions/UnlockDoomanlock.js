@@ -1,11 +1,11 @@
 import CookieManager from '@react-native-cookies/cookies';
+import {synced, syncing} from '../actions';
+import store from '../store';
+import {pass} from '../secrets';
 
-export default async function UnlockDoomanlock(
-  fgt,
-  session,
-  cookie_token,
-  auth,
-) {
+export default async function UnlockDoomanlock() {
+  const state = store.getState();
+  store.dispatch(syncing());
   // get request
   await CookieManager.clearAll();
   var myHeaders = new Headers();
@@ -32,7 +32,7 @@ export default async function UnlockDoomanlock(
   myHeaders.append('Accept-Language', 'sv-SE,sv;q=0.9,en-US;q=0.8,en;q=0.7');
   myHeaders.append(
     'Cookie',
-    `FGTServer=${fgt}; FGTServer=${fgt}; ASP.NET_SessionId=${session}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${cookie_token}; .ASPXAUTH=${auth}`,
+    `FGTServer=${state.fgtServer}; FGTServer=${state.fgtServer}; ASP.NET_SessionId=${state.sessionId}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${state.cookieToken}; .ASPXAUTH=${state.authX}`,
   );
   var requestOptions = {
     method: 'GET',
@@ -42,10 +42,15 @@ export default async function UnlockDoomanlock(
     mode: 'cors',
   };
 
-  const res = await fetch(
-    'https://aptus.hyresbostader.se/AptusPortalStyra/Lock/UnlockDoormanLock?code=12345',
+  await fetch(
+    `https://aptus.hyresbostader.se/AptusPortalStyra/Lock/UnlockDoormanLock?code=${pass}`,
     requestOptions,
-  );
-
-  return res;
+  )
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      store.dispatch(synced());
+      console.log('Unlock response....', data);
+    });
 }

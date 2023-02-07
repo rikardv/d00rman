@@ -1,4 +1,10 @@
-export default async function UnlockMain(fgt, session, cookie_token, auth) {
+import {synced, syncing} from '../actions';
+import {mainId} from '../secrets';
+import store from '../store';
+
+export default async function UnlockMain() {
+  const state = store.getState();
+
   var myHeaders = new Headers();
   myHeaders.append(
     'sec-ch-ua',
@@ -14,7 +20,7 @@ export default async function UnlockMain(fgt, session, cookie_token, auth) {
   myHeaders.append('sec-ch-ua-platform', '"macOS"');
   myHeaders.append(
     'Cookie',
-    `FGTServer=${fgt}; FGTServer=${fgt}; ASP.NET_SessionId=${session}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${cookie_token}; .ASPXAUTH=${auth}`,
+    `FGTServer=${state.fgtServer}; FGTServer=${state.fgtServer}; ASP.NET_SessionId=${state.sessionId}; __RequestVerificationToken_L0FwdHVzUG9ydGFsU3R5cmE1=${state.cookieToken}; .ASPXAUTH=${state.authX}`,
   );
   var requestOptions = {
     method: 'GET',
@@ -25,10 +31,7 @@ export default async function UnlockMain(fgt, session, cookie_token, auth) {
   };
 
   await fetch(
-    'https://aptus.hyresbostader.se/AptusPortalStyra/Lock/UnlockEntryDoor/',
+    `https://aptus.hyresbostader.se/AptusPortalStyra/Lock/UnlockEntryDoor/${mainId}`,
     requestOptions,
-  )
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+  );
 }
