@@ -12,6 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		49347A4529A6B763005B41D6 /* on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49347A4429A6B763005B41D6 /* on.mp3 */; };
+		49347A4729A6B772005B41D6 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49347A4629A6B772005B41D6 /* off.mp3 */; };
 		7699B88040F8A987B510C191 /* libPods-d00rman-d00rmanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-d00rman-d00rmanTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = d00rman/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-d00rman-d00rmanTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-d00rman-d00rmanTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-d00rman.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-d00rman.debug.xcconfig"; path = "Target Support Files/Pods-d00rman/Pods-d00rman.debug.xcconfig"; sourceTree = "<group>"; };
+		49347A4429A6B763005B41D6 /* on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = on.mp3; path = ../../../Desktop/on.mp3; sourceTree = "<group>"; };
+		49347A4629A6B772005B41D6 /* off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = off.mp3; path = ../../../Desktop/off.mp3; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-d00rman.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-d00rman.release.xcconfig"; path = "Target Support Files/Pods-d00rman/Pods-d00rman.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-d00rman-d00rmanTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-d00rman-d00rmanTests.debug.xcconfig"; path = "Target Support Files/Pods-d00rman-d00rmanTests/Pods-d00rman-d00rmanTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-d00rman.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-d00rman.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +120,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				49347A4629A6B772005B41D6 /* off.mp3 */,
+				49347A4429A6B763005B41D6 /* on.mp3 */,
 				13B07FAE1A68108700A75B9A /* d00rman */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* d00rmanTests */,
@@ -242,8 +248,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49347A4729A6B772005B41D6 /* off.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				49347A4529A6B763005B41D6 /* on.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

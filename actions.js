@@ -17,6 +17,8 @@ export const READY_FOR_GPS_TOGGLE = 'READY_FOR_GPS_TOGGLE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const UPDATE_POSITION_STATE = 'UPDATE_POSITION_STATE';
+export const TOGGLE_LIGHT = 'TOGGLE_LIGHT';
+export const TOGGLE_ALL = 'TOGGLE_ALL';
 export const startGps = e => {
   return {
     type: START_GPS,
@@ -139,5 +141,19 @@ export const showModal = text => {
 export const hideModal = () => {
   return {
     type: HIDE_MODAL,
+  };
+};
+
+export const toggleLight = id => {
+  return {
+    type: TOGGLE_LIGHT,
+    payload: id,
+  };
+};
+
+export const toggleAll = on => {
+  return {
+    type: TOGGLE_ALL,
+    payload: on,
   };
 };

@@ -20,6 +20,8 @@ import {
   SHOW_MODAL,
   HIDE_MODAL,
   UPDATE_POSITION_STATE,
+  TOGGLE_LIGHT,
+  TOGGLE_ALL,
 } from './actions';
 
 const initialState = {
@@ -43,6 +45,20 @@ const initialState = {
   toggledAuth: false,
   showModal: false,
   modalText: '',
+  lights: [
+    {
+      id: 1,
+      on: false,
+    },
+    {
+      id: 2,
+      on: false,
+    },
+    {
+      id: 3,
+      on: false,
+    },
+  ],
 };
 
 const reducer = (state = initialState, action) => {
@@ -165,6 +181,28 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         prevPosition: action.payload,
+      };
+    }
+    case TOGGLE_LIGHT: {
+      const obj = state.lights.map(e => {
+        if (e.id === action.payload) {
+          return {...e, on: !e.on};
+        }
+        return e;
+      });
+      return {
+        ...state,
+        lights: obj,
+      };
+    }
+
+    case TOGGLE_ALL: {
+      const obj = state.lights.map(e => {
+        return {...e, on: action.payload};
+      });
+      return {
+        ...state,
+        lights: obj,
       };
     }
     default:

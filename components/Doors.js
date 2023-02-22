@@ -1,25 +1,9 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, FlatList, View, StyleSheet} from 'react-native';
-import * as eva from '@eva-design/eva';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-  Button,
-  Spinner,
-  Icon,
-  Toggle,
-  Card,
-} from '@ui-kitten/components';
+import {View, StyleSheet} from 'react-native';
+import {Text} from '@ui-kitten/components';
 import {connect} from 'react-redux';
 import {createSelector} from '@reduxjs/toolkit';
-import {
-  synced,
-  syncing,
-  toggleApartmentDoor,
-  toggleMainEntranceDoor,
-} from '../actions';
+import {toggleApartmentDoor, toggleMainEntranceDoor} from '../actions';
 import UnlockDoomanlock from '../functions/UnlockDoomanlock';
 import UnlockMain from '../functions/UnlockMain';
 import LockDoomanlock from '../functions/LockDoomanlock';
@@ -31,19 +15,22 @@ class Doors extends Component {
       <View styles={styles.row}>
         <View style={styles.textContainer}>
           <View style={styles.text}>
-            <Text category="s1">Entrédörr</Text>
+            <Text category="s2">Entrédörr</Text>
           </View>
           <OnOff
+            primaryIcon={'unlock-outline'}
+            secondaryIcon={'lock-outline'}
             displayLocks
             active={this.props.data.mainEntranceUnlocked}
             onChange={e => this.mainDoorLogic(e)}></OnOff>
         </View>
         <View style={styles.textContainer}>
           <View style={styles.text}>
-            <Text category="s1">Lägenhetsdörr</Text>
+            <Text category="s2">Lägenhetsdörr</Text>
           </View>
           <OnOff
-            displayLocks
+            primaryIcon={'unlock-outline'}
+            secondaryIcon={'lock-outline'}
             active={this.props.data.apartmentUnlocked}
             onChange={e => {
               this.props.dispatchAction(toggleApartmentDoor(e));

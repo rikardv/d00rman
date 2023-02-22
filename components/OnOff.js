@@ -2,6 +2,37 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {Component} from 'react';
 import {TouchableWithoutFeedback} from '@ui-kitten/components/devsupport';
 import {Icon} from '@ui-kitten/components';
+import Sound from 'react-native-sound';
+
+Sound.setCategory('Playback');
+
+var on = new Sound('on.mp3', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // if loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      on.getDuration() +
+      'number of channels: ' +
+      on.getNumberOfChannels(),
+  );
+});
+
+var off = new Sound('off.mp3', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // if loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      off.getDuration() +
+      'number of channels: ' +
+      off.getNumberOfChannels(),
+  );
+});
 
 export default class OnOff extends Component {
   state = {
@@ -11,16 +42,22 @@ export default class OnOff extends Component {
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback
-          onPress={() => this.props.onChange(false)}
+          onPress={() => {
+            off.play();
+            this.props.onChange(false);
+          }}
+          disabled={!this.props.active}
           style={{
             ...styles.btn,
-            backgroundColor: !this.props.active ? '#42AAFF' : 'grey',
+            backgroundColor: !this.props.active
+              ? this.props.color ?? '#42AAFF'
+              : 'grey',
             borderTopLeftRadius: 5,
             borderBottomLeftRadius: 5,
           }}>
-          {this.props.displayLocks ? (
+          {this.props.secondaryIcon ? (
             <Icon
-              name={'lock-outline'}
+              name={this.props.secondaryIcon}
               fill={'white'}
               size="giant"
               width={20}
@@ -32,21 +69,27 @@ export default class OnOff extends Component {
                 color: 'white',
                 fontWeight: '700',
               }}>
-              OFF
+              Av
             </Text>
           )}
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
-          onPress={() => this.props.onChange(true)}
+          onPress={() => {
+            on.play();
+            this.props.onChange(true);
+          }}
+          disabled={this.props.active}
           style={{
             ...styles.btn,
-            backgroundColor: this.props.active ? '#42AAFF' : 'grey',
+            backgroundColor: this.props.active
+              ? this.props.color ?? '#42AAFF'
+              : 'grey',
             borderTopRightRadius: 5,
             borderBottomRightRadius: 5,
           }}>
-          {this.props.displayLocks ? (
+          {this.props.primaryIcon ? (
             <Icon
-              name={'unlock-outline'}
+              name={this.props.primaryIcon}
               fill={'white'}
               size="giant"
               width={20}
@@ -58,7 +101,7 @@ export default class OnOff extends Component {
                 color: 'white',
                 fontWeight: '700',
               }}>
-              ON
+              På
             </Text>
           )}
         </TouchableWithoutFeedback>

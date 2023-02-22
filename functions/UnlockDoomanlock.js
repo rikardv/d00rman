@@ -45,12 +45,8 @@ export default async function UnlockDoomanlock() {
   await fetch(
     `https://aptus.hyresbostader.se/AptusPortalStyra/Lock/UnlockDoormanLock?code=${pass}`,
     requestOptions,
-  )
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      store.dispatch(synced());
-      console.log('Unlock response....', data);
-    });
+  ).then(res => {
+    console.log(res);
+    store.dispatch(synced());
+  });
 }

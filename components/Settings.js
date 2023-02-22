@@ -9,6 +9,7 @@ import {
   signIn,
   signOut,
   startGps,
+  toggleAll,
   updatePos,
   updatePositionState,
 } from '../actions';
@@ -22,6 +23,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import UnlockMain from '../functions/UnlockMain';
 import UnlockDoomanlock from '../functions/UnlockDoomanlock';
 import OnOff from './OnOff';
+import lightsControl from '../functions/lightsControl';
 
 class Settings extends Component {
   constructor(props) {
@@ -68,7 +70,7 @@ class Settings extends Component {
           const prevPosition = this.props.data.prevPosition;
           let nextPosition = '';
 
-          if (roundedDistance <= 8) nextPosition = 'ENTRANCE';
+          if (roundedDistance <= 11) nextPosition = 'ENTRANCE';
           else if (roundedDistance < 150) nextPosition = 'ZONE';
           else nextPosition = 'AWAY';
 
@@ -80,36 +82,28 @@ class Settings extends Component {
             nextPosition === 'ZONE'
           ) {
             this.authenticateAndPing(true);
-            // PushNotificationIOS.addNotificationRequest({
-            //   id: 'test',
-            //   title: 'I zonen',
-            //   subtitle: '',
-            //   body: 'Loggar in och förbereder för att låsa upp',
-            //   category: 'test',
-            //   threadId: 'thread-id',
-            //   repeats: false,
-            // });
           }
 
-          if (
-            prevPosition === 'ZONE' &&
-            nextPosition === 'ENTRANCE' &&
-            this.props.data.authenticated
-          ) {
+          if (prevPosition === 'ZONE' && nextPosition === 'ENTRANCE') {
             PushNotificationIOS.addNotificationRequest({
               id: 'test',
               title: 'Välkommen hem herr Rikard',
-              subtitle: 'Jag öppnar dörren åt dig',
+              subtitle: 'Jag öppnar dörren åt dig och tänder lamporna',
               body: '',
               category: 'test',
               threadId: 'thread-id',
               repeats: false,
             });
-            await UnlockMain();
-            await UnlockDoomanlock();
-            await new Promise(r => setTimeout(r, 10000));
-            this.authenticateAndPing(false);
-            BackgroundGeolocation.stop()
+            if (this.props.data.authenticated) {
+              await UnlockMain();
+              await UnlockDoomanlock();
+              await new Promise(r => setTimeout(r, 10000));
+              this.authenticateAndPing(false);
+            }
+            await lightsControl(true);
+            this.props.dispatchAction(toggleAll(true));
+
+            BackgroundGeolocation.stop();
           }
 
           if (prevPosition === 'ZONE' && nextPosition === 'AWAY') {
@@ -122,6 +116,8 @@ class Settings extends Component {
               threadId: 'thread-id',
               repeats: false,
             });
+            await lightsControl(false);
+            this.props.dispatchAction(toggleAll(false));
           }
 
           this.props.dispatchAction(updatePositionState(nextPosition));
@@ -166,7 +162,7 @@ class Settings extends Component {
       <View styles={styles.row}>
         <View style={styles.textContainer}>
           <View style={styles.text}>
-            <Text category="p2">GPS-tracking</Text>
+            <Text category="p2">GPS-automatisering</Text>
           </View>
           <OnOff
             active={this.props.data.gpsOn}
@@ -182,7 +178,7 @@ class Settings extends Component {
         </View>
         <View style={styles.textContainer}>
           <View style={styles.text}>
-            <Text category="p2">Force authentication</Text>
+            <Text category="p2">Synka med dörrar</Text>
           </View>
           <OnOff
             active={this.props.data.toggledAuth}

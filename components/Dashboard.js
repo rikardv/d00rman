@@ -1,95 +1,84 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, FlatList, View, StyleSheet} from 'react-native';
-import * as eva from '@eva-design/eva';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-  Button,
-  Spinner,
-  Icon,
-  Divider,
-  Card,
-  Popover,
-} from '@ui-kitten/components';
+import {Layout, Text, Icon, Divider} from '@ui-kitten/components';
 import Doors from './Doors';
 import SpinningIcon from './SpinningIcon';
 import Settings from './Settings';
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+import Lights from './Lights';
 
 const iconProps = {
   LOCATION: {
     name: 'navigation-2-outline',
     fill: '#0495EE',
-    text: 'to home',
+    text: 'till hem',
     spinning: false,
   },
   SYNCING: {
     name: 'sync-outline',
     fill: '#FFBE43',
-    text: 'Syncing with lock',
+    text: 'Synkar med lås',
     spinning: true,
   },
   AWAY: {
     name: 'home-outline',
     fill: '#FFBE43',
-    text: 'Away',
+    text: 'Borta',
     spinning: false,
   },
   ZONE: {
     name: 'home-outline',
     fill: '#60AF20',
-    text: 'Zone',
+    text: 'Zon',
     spinning: false,
   },
   ENTRANCE: {
     name: 'home-outline',
     fill: '#60AF20',
-    text: 'Entrance',
+    text: 'Entré',
     spinning: false,
   },
   SYNCED: {
     name: 'checkmark-outline',
     fill: '#60AF20',
-    text: 'Synced',
+    text: 'Synkad',
     spinning: false,
   },
   AWAIT_AUTH: {
     name: 'sync-outline',
     fill: '#FFBE43',
-    text: 'Authenticating',
+    text: 'Loggar in',
     spinning: true,
   },
   AUTHENTICATED: {
     name: 'checkmark-outline',
     fill: '#60AF20',
-    text: 'Authenticated',
+    text: 'Inloggad',
     spinning: false,
   },
   NOT_LOGGED_IN: {
     name: 'close-outline',
     fill: 'red',
-    text: 'Not authenticated',
+    text: 'Ej inloggad',
     spinning: false,
   },
   NO_GPS_ACTIVATED: {
     name: 'close-outline',
     fill: 'red',
-    text: 'No GPS activated',
+    text: 'GPS avstängd',
   },
   OK_BATTERY: {
     name: 'battery-outline',
     fill: '#60AF20',
-    text: 'Battery',
+    text: 'Batteri',
     spinning: false,
   },
   LOW_BATTERY: {
     name: 'battery-outline',
     fill: 'red',
-    text: 'Low battery',
+    text: 'Lågt batteri',
     spinning: false,
   },
 };
@@ -129,7 +118,7 @@ class Dashboard extends Component {
       <Layout style={styles.layout}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View>
-            {gpsOn && CustomIcon('LOCATION', `${distanceToZone}m to zone`)}
+            {gpsOn && CustomIcon('LOCATION', `${distanceToZone}m till entré`)}
             {gpsOn &&
               (prevPosition === 'ZONE'
                 ? CustomIcon('ZONE')
@@ -156,11 +145,17 @@ class Dashboard extends Component {
                 : CustomIcon('LOW_BATTERY'))}
           </View>
         </View>
-        <Divider style={{backgroundColor: '#757575', marginVertical: '5%'}} />
+        {!!authenticated && (
+          <View>
+            <Divider
+              style={{backgroundColor: '#757575', marginVertical: '5%'}}
+            />
 
-        <Doors />
-        {/* <Divider style={{backgroundColor: '#757575', marginVertical: '5%'}} />
-        <Lights /> */}
+            <Doors />
+          </View>
+        )}
+        <Divider style={{backgroundColor: '#757575', marginVertical: '5%'}} />
+        <Lights />
         <Divider style={{backgroundColor: '#757575', marginVertical: '5%'}} />
         <Settings />
         {!!this.props.data.showModal && (
